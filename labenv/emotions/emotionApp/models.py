@@ -45,3 +45,11 @@ class Choice(models.Model):
     # votes = models.IntegerField(default=0)
     def __str__(self):
         return self.choice_text
+
+
+class UploadImage(models.Model):
+    caption = models.CharField(max_length = 200)
+    image = models.ImageField(upload_to = 'images')
+
+    def __str__(self):  
+        return self.caption

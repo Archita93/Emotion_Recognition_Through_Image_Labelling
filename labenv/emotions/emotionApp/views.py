@@ -1,9 +1,11 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
-
-from .models import Question, Choice
+from .forms import *
+from .models import *
+from emotionApp.forms import UserImage
+from.models import UploadImage
 
 class IndexView(generic.ListView):
     template_name = 'emotionApp/index.html'
@@ -44,3 +46,17 @@ def vote(request, question_id):
 
 
 
+def image_request(request):  
+    if request.method == 'POST':  
+        form = UserImageForm(request.POST, request.FILES)  
+        if form.is_valid():  
+            form.save()  
+  
+            # Getting the current instance object to display in the template  
+            img_object = form.instance  
+              
+            return render(request, 'image_form.html', {'form': form, 'img_obj': img_object})  
+    else:  
+        form = UserImageForm()  
+  
+    return render(request, 'image_form.html', {'form': form})  
